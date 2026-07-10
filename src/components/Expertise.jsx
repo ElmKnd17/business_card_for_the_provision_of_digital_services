@@ -1,6 +1,8 @@
 import { motion } from 'framer-motion';
 import expertPhoto from '../images/Expert.jpg';
 
+const sectionTitle = 'Системный подход к вашему бизнесу';
+
 const photoVariants = {
   hidden: {
     scale: 1.2,
@@ -17,7 +19,7 @@ const photoVariants = {
 function Expertise() {
   return (
     <motion.section
-      className="bg-background px-6 py-24 sm:px-8 lg:px-12 lg:py-32"
+      className="px-6 py-24 sm:px-8 lg:px-12 lg:py-32"
       initial={{ opacity: 0, y: 60, filter: 'blur(8px)' }}
       transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
       viewport={{ once: true, amount: 0.15 }}
@@ -25,8 +27,11 @@ function Expertise() {
     >
       <div className="mx-auto flex w-full max-w-7xl flex-col items-center gap-14 lg:flex-row lg:gap-20">
         <div className="w-full max-w-3xl lg:w-1/2">
-          <h2 className="text-3xl font-bold leading-tight text-white sm:text-4xl lg:text-5xl">
-            Системный подход к вашему бизнесу
+          <h2
+            className="metallic-title text-3xl font-bold leading-tight text-[#f8fafc] sm:text-4xl lg:text-5xl"
+            data-text={sectionTitle}
+          >
+            {sectionTitle}
           </h2>
 
           <div className="mt-7 space-y-5 text-lg leading-8 text-[#a1a1aa]">

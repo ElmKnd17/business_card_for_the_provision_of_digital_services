@@ -28,34 +28,19 @@ const fadeUpBlurVariants = {
   },
 };
 
+const heroTitle = 'Оцифровка и автоматизация бизнеса в Москве';
+
 function HeroSection() {
   const scrollToContact = () => {
     document.getElementById('contact')?.scrollIntoView({
       behavior: 'smooth',
-      block: 'start',
+      block: 'center',
     });
   };
 
   return (
-    <section className="relative flex min-h-screen overflow-hidden bg-[#000000]">
-      <div className="pointer-events-none absolute inset-0">
-        <div className="absolute left-1/2 top-1/2 h-[34rem] w-[34rem] -translate-x-1/2 -translate-y-1/2 sm:h-[42rem] sm:w-[42rem] lg:h-[56rem] lg:w-[56rem]">
-          <motion.div
-            className="h-full w-full rounded-full bg-[radial-gradient(circle,rgba(139,92,246,0.34)_0%,rgba(59,130,246,0.18)_42%,rgba(0,0,0,0)_72%)] blur-3xl"
-            animate={{
-              scale: [1, 1.05, 1],
-            }}
-            transition={{
-              duration: 10,
-              repeat: Infinity,
-              ease: 'easeInOut',
-            }}
-          />
-        </div>
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(0,0,0,0)_0%,rgba(0,0,0,0.42)_52%,#000000_100%)]" />
-      </div>
-
-      <div className="relative z-10 mx-auto flex w-full max-w-7xl items-start px-4 pb-20 pt-[22vh] sm:items-center sm:px-8 sm:py-20 lg:px-12">
+    <section className="relative min-h-[100dvh] overflow-hidden">
+      <div className="relative z-20 mx-auto flex min-h-[100dvh] w-full max-w-7xl items-center px-4 py-16 sm:px-8 sm:py-20 lg:px-12 lg:py-24">
         <motion.div
           className="w-full max-w-4xl text-left"
           variants={contentVariants}
@@ -63,10 +48,11 @@ function HeroSection() {
           animate="visible"
         >
           <motion.h1
-            className="bg-gradient-to-r from-accent via-primary to-accent bg-[length:200%_auto] bg-clip-text text-left text-4xl font-extrabold leading-[1.05] text-transparent animate-text-gradient sm:text-5xl lg:text-7xl"
+            className="metallic-title relative max-w-full break-words text-left text-[2.75rem] font-extrabold leading-[1.02] text-[#f8fafc] drop-shadow-[0_0_18px_rgba(255,255,255,0.06)] sm:text-5xl sm:leading-[1.06] lg:text-7xl"
+            data-text={heroTitle}
             variants={fadeUpBlurVariants}
           >
-            Оцифровка и автоматизация бизнеса в Москве
+            {heroTitle}
           </motion.h1>
 
           <motion.h2

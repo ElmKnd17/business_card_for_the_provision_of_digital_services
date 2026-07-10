@@ -16,6 +16,8 @@ module.exports = {
       animation: {
         shimmer: 'shimmer 2.5s infinite linear',
         'text-gradient': 'textGradient 8s linear infinite',
+        'metallic-shimmer': 'metallicShimmer 6s linear infinite',
+        'wave-slow': 'wave 15s ease-in-out infinite alternate',
       },
       keyframes: {
         shimmer: {
@@ -25,6 +27,15 @@ module.exports = {
         textGradient: {
           '0%': { backgroundPosition: '0% center' },
           '100%': { backgroundPosition: '200% center' },
+        },
+        metallicShimmer: {
+          '0%': { backgroundPosition: '0% 50%' },
+          '100%': { backgroundPosition: '200% 50%' },
+        },
+        wave: {
+          '0%': { transform: 'scale(1) translate(0, 0)' },
+          '50%': { transform: 'scale(1.1) translate(2%, 2%)' },
+          '100%': { transform: 'scale(1) translate(-2%, -2%)' },
         },
       },
     },

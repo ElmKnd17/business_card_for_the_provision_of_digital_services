@@ -42,3 +42,195 @@ textarea {
 #root {
   min-height: 100vh;
 }
+
+.bg-noise {
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.16'/%3E%3C/svg%3E");
+  background-size: 220px 220px;
+}
+
+.aurora-blob {
+  opacity: 0.78;
+  backface-visibility: hidden;
+  transform-origin: center;
+  will-change: transform;
+}
+
+.aurora-blob-one {
+  animation: auroraDriftOne 48s cubic-bezier(0.16, 1, 0.3, 1) infinite alternate;
+  animation-delay: -13s;
+}
+
+.aurora-blob-two {
+  animation: auroraDriftTwo 58s cubic-bezier(0.16, 1, 0.3, 1) infinite alternate;
+  animation-delay: -24s;
+}
+
+.aurora-blob-three {
+  animation: auroraDriftThree 64s cubic-bezier(0.16, 1, 0.3, 1) infinite alternate;
+  animation-delay: -31s;
+}
+
+.aurora-blob-four {
+  animation: auroraDriftFour 54s cubic-bezier(0.16, 1, 0.3, 1) infinite alternate;
+  animation-delay: -39s;
+}
+
+.metallic-title {
+  position: relative;
+  color: #e4e4e7;
+  margin-bottom: -0.08em;
+  overflow: visible;
+  padding-bottom: 0.08em;
+}
+
+.metallic-title::after {
+  position: absolute;
+  inset: 0;
+  display: block;
+  pointer-events: none;
+  content: attr(data-text);
+  color: transparent;
+  font: inherit;
+  letter-spacing: inherit;
+  line-height: inherit;
+  overflow: visible;
+  white-space: inherit;
+  background-image: linear-gradient(
+    118deg,
+    #9ca3af 0%,
+    #d4d4d8 15%,
+    rgba(139, 92, 246, 0.62) 29%,
+    rgba(59, 130, 246, 0.58) 42%,
+    #f4f4f5 52%,
+    rgba(96, 165, 250, 0.48) 64%,
+    rgba(167, 139, 250, 0.5) 78%,
+    #cbd5e1 90%,
+    #9ca3af 100%
+  );
+  background-size: 260% auto;
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: metallicTitleShimmer 16s linear infinite;
+  opacity: 0.76;
+}
+
+@keyframes metallicTitleShimmer {
+  0% {
+    background-position: 0% 50%;
+  }
+
+  100% {
+    background-position: 200% 50%;
+  }
+}
+
+@media (max-width: 767px) {
+  .aurora-blob {
+    opacity: 0.62;
+  }
+
+  .aurora-blob-four {
+    display: none;
+  }
+
+  .metallic-title::after {
+    animation-duration: 20s;
+    opacity: 0.68;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .aurora-blob,
+  .metallic-title::after {
+    animation: none;
+  }
+}
+
+@keyframes auroraDriftOne {
+  0% {
+    transform: translate3d(-7vw, -4vh, 0) scale(1) rotate(0deg);
+  }
+
+  24% {
+    transform: translate3d(18vw, 12vh, 0) scale(1.16) rotate(18deg);
+  }
+
+  52% {
+    transform: translate3d(6vw, 46vh, 0) scale(0.9) rotate(-12deg);
+  }
+
+  78% {
+    transform: translate3d(34vw, 28vh, 0) scale(1.22) rotate(26deg);
+  }
+
+  100% {
+    transform: translate3d(12vw, 5vh, 0) scale(1.06) rotate(-8deg);
+  }
+}
+
+@keyframes auroraDriftTwo {
+  0% {
+    transform: translate3d(9vw, -2vh, 0) scale(1.05) rotate(0deg);
+  }
+
+  20% {
+    transform: translate3d(-18vw, 18vh, 0) scale(0.92) rotate(-18deg);
+  }
+
+  48% {
+    transform: translate3d(-42vw, 42vh, 0) scale(1.18) rotate(16deg);
+  }
+
+  72% {
+    transform: translate3d(-14vw, 58vh, 0) scale(1.02) rotate(-30deg);
+  }
+
+  100% {
+    transform: translate3d(-34vw, 8vh, 0) scale(1.24) rotate(10deg);
+  }
+}
+
+@keyframes auroraDriftThree {
+  0% {
+    transform: translate3d(-4vw, 10vh, 0) scale(0.95) rotate(0deg);
+  }
+
+  26% {
+    transform: translate3d(26vw, -34vh, 0) scale(1.2) rotate(22deg);
+  }
+
+  54% {
+    transform: translate3d(-20vw, -18vh, 0) scale(1.05) rotate(-16deg);
+  }
+
+  82% {
+    transform: translate3d(34vw, -50vh, 0) scale(0.88) rotate(34deg);
+  }
+
+  100% {
+    transform: translate3d(8vw, -24vh, 0) scale(1.16) rotate(-10deg);
+  }
+}
+
+@keyframes auroraDriftFour {
+  0% {
+    transform: translate3d(-18vw, -18vh, 0) scale(1) rotate(0deg);
+  }
+
+  22% {
+    transform: translate3d(24vw, -8vh, 0) scale(1.28) rotate(-20deg);
+  }
+
+  50% {
+    transform: translate3d(18vw, 30vh, 0) scale(0.86) rotate(14deg);
+  }
+
+  74% {
+    transform: translate3d(-28vw, 20vh, 0) scale(1.14) rotate(30deg);
+  }
+
+  100% {
+    transform: translate3d(-8vw, -28vh, 0) scale(1.06) rotate(-18deg);
+  }
+}
