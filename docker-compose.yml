@@ -1,0 +1,10 @@
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: business-card-digital-services:latest
+    container_name: business_card_for_the_provision_of_digital_services
+    restart: unless-stopped
+    ports:
+      - "80:80"
