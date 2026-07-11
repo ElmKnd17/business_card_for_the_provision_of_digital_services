@@ -160,11 +160,11 @@ function ContactForm() {
 
   return (
     <motion.section
-      className="flex min-h-screen flex-col justify-between px-6 pt-24 sm:px-8 lg:px-12 lg:pt-32"
-      initial={{ opacity: 0, y: 60, filter: 'blur(8px)' }}
+      className="flex min-h-[100svh] flex-col justify-between px-6 pt-24 sm:px-8 lg:min-h-screen lg:px-12 lg:pt-32"
+      initial={{ opacity: 0, y: 48 }}
       transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
       viewport={{ once: true, amount: 0.15 }}
-      whileInView={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+      whileInView={{ opacity: 1, y: 0 }}
     >
       <div className="mx-auto flex w-full max-w-7xl flex-1 items-center py-16">
         <div

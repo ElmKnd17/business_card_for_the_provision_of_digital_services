@@ -8,6 +8,7 @@ html {
 
 body {
   min-height: 100vh;
+  min-height: 100svh;
   margin: 0;
   overflow-x: hidden;
   background: #0a0a0a;
@@ -41,6 +42,29 @@ textarea {
 
 #root {
   min-height: 100vh;
+  min-height: 100svh;
+}
+
+.hero-reveal {
+  opacity: 0;
+  transform: translate3d(0, 40px, 0);
+  animation: heroFadeUp 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.hero-reveal-1 {
+  animation-delay: 0s;
+}
+
+.hero-reveal-2 {
+  animation-delay: 0.2s;
+}
+
+.hero-reveal-3 {
+  animation-delay: 0.4s;
+}
+
+.deferred-sections-fallback {
+  pointer-events: none;
 }
 
 .bg-noise {
@@ -78,14 +102,14 @@ textarea {
 .metallic-title {
   position: relative;
   color: #e4e4e7;
-  margin-bottom: -0.08em;
+  margin-bottom: -0.18em;
   overflow: visible;
-  padding-bottom: 0.08em;
+  padding-bottom: 0.18em;
 }
 
 .metallic-title::after {
   position: absolute;
-  inset: 0;
+  inset: 0 0 -0.18em;
   display: block;
   pointer-events: none;
   content: attr(data-text);
@@ -125,11 +149,23 @@ textarea {
   }
 }
 
+@keyframes heroFadeUp {
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
 @media (max-width: 767px) {
-  .aurora-blob {
-    opacity: 0.62;
+  .site-bg-layer {
+    position: absolute;
   }
 
+  .aurora-blob {
+    opacity: 0.54;
+  }
+
+  .aurora-blob-three,
   .aurora-blob-four {
     display: none;
   }
@@ -142,8 +178,14 @@ textarea {
 
 @media (prefers-reduced-motion: reduce) {
   .aurora-blob,
-  .metallic-title::after {
+  .metallic-title::after,
+  .hero-reveal {
     animation: none;
+  }
+
+  .hero-reveal {
+    opacity: 1;
+    transform: none;
   }
 }
 
