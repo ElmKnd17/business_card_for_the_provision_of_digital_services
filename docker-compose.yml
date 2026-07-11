@@ -5,6 +5,45 @@ services:
       dockerfile: Dockerfile
     image: business-card-digital-services:latest
     container_name: business_card_for_the_provision_of_digital_services
+    depends_on:
+      lead-gateway:
+        condition: service_started
     restart: unless-stopped
     ports:
       - "80:80"
+
+  lead-gateway:
+    build:
+      context: ./lead-gateway
+      dockerfile: Dockerfile
+    image: business-card-lead-gateway:latest
+    container_name: business_card_lead_gateway
+    env_file:
+      - path: .env
+        required: false
+    environment:
+      NODE_ENV: production
+      PORT: 3000
+      TELEGRAM_PROXY_URL: socks5h://vpn-proxy:1080
+      TRUST_PROXY_HOPS: 1
+    depends_on:
+      vpn-proxy:
+        condition: service_started
+    restart: unless-stopped
+    expose:
+      - "3000"
+
+  vpn-proxy:
+    build:
+      context: ./vpn-proxy
+      dockerfile: Dockerfile
+    image: business-card-vpn-proxy:latest
+    container_name: business_card_vpn_proxy
+    env_file:
+      - path: .env
+        required: false
+    environment:
+      SOCKS_PORT: 1080
+    restart: unless-stopped
+    expose:
+      - "1080"

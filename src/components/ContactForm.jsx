@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { Mail, Phone, Send } from 'lucide-react';
 
@@ -62,9 +62,28 @@ const sanitizeTelegram = (value) => {
   return hasAtPrefix && username ? `@${username}` : username;
 };
 
+const getUtmParams = () => {
+  if (typeof window === 'undefined') {
+    return {};
+  }
+
+  const params = new URLSearchParams(window.location.search);
+  const utm = {};
+
+  params.forEach((value, key) => {
+    if (key.startsWith('utm_') && value) {
+      utm[key] = value;
+    }
+  });
+
+  return utm;
+};
+
 function ContactForm() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
+  const [serverError, setServerError] = useState('');
+  const formStartedAtRef = useRef(Date.now());
 
   const {
     clearErrors,
@@ -81,6 +100,7 @@ function ContactForm() {
       phone: '',
       telegram: '',
       contactGroup: '',
+      honeypot: '',
     },
   });
 
@@ -109,58 +129,58 @@ function ContactForm() {
   const contactGroupField = register('contactGroup', {
     validate: () => hasContact() || 'Укажите хотя бы один контакт для связи',
   });
+  const honeypotField = register('honeypot');
 
   const clearContactError = () => {
     clearErrors('contactGroup');
+    setServerError('');
   };
 
   const onSubmit = async (data) => {
     setIsSubmitting(true);
+    setServerError('');
 
     try {
-      const response = await fetch('https://api.web3forms.com/submit', {
+      const response = await fetch('/api/lead', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
           Accept: 'application/json',
         },
         body: JSON.stringify({
-          access_key: '1d09dbd1-3075-44bf-a0a0-e40d647ca417',
-          email: 'elmanmagerramov63@gmail.com',
-          subject: 'Новая заявка с сайта',
+          source: 'business-card-site',
           name: data.name,
-          contact_email: data.email,
+          email: data.email,
           phone: data.phone,
           telegram: data.telegram,
-          contact: [
-            data.email && `Email: ${data.email}`,
-            data.phone && `Телефон: ${data.phone}`,
-            data.telegram && `Telegram: ${data.telegram}`,
-          ]
-            .filter(Boolean)
-            .join(' | '),
+          message: '',
+          page: typeof window !== 'undefined' ? window.location.href : '',
+          utm: getUtmParams(),
+          honeypot: data.honeypot,
+          formStartedAt: formStartedAtRef.current,
         }),
       });
+      const result = await response.json().catch(() => ({}));
 
-      const result = await response.json();
-
-      if (!response.ok || result.success === false) {
+      if (!response.ok || result.ok === false) {
         throw new Error(result.message || 'Не удалось отправить заявку');
       }
 
       setIsSuccess(true);
       reset();
+      formStartedAtRef.current = Date.now();
     } catch (error) {
       console.error(error);
+      setServerError(
+        'Не удалось отправить заявку. Напишите мне напрямую в Telegram, на почту или по телефону.',
+      );
     } finally {
       setIsSubmitting(false);
     }
   };
 
   return (
-    <section
-      className="flex min-h-[100svh] flex-col justify-between px-6 pt-24 sm:px-8 lg:min-h-screen lg:px-12 lg:pt-32"
-    >
+    <section className="flex min-h-[100svh] flex-col justify-between px-6 pt-24 sm:px-8 lg:min-h-screen lg:px-12 lg:pt-32">
       <div className="mx-auto flex w-full max-w-7xl flex-1 items-center py-16">
         <div
           className="mx-auto w-full max-w-3xl scroll-my-16 text-center"
@@ -187,6 +207,13 @@ function ContactForm() {
               onSubmit={handleSubmit(onSubmit)}
             >
               <input type="hidden" {...contactGroupField} />
+              <input
+                autoComplete="off"
+                className="hidden"
+                tabIndex="-1"
+                type="text"
+                {...honeypotField}
+              />
 
               <div className="text-left">
                 <input
@@ -194,6 +221,10 @@ function ContactForm() {
                   placeholder="Имя"
                   type="text"
                   {...nameField}
+                  onChange={(event) => {
+                    setServerError('');
+                    nameField.onChange(event);
+                  }}
                 />
                 {errors.name && (
                   <p className="mt-2 text-sm text-red-400">
@@ -273,6 +304,12 @@ function ContactForm() {
               {errors.contactGroup && (
                 <p className="text-left text-sm text-red-400">
                   {errors.contactGroup.message}
+                </p>
+              )}
+
+              {serverError && (
+                <p className="text-left text-sm text-red-400">
+                  {serverError}
                 </p>
               )}
 

@@ -3,3 +3,6 @@ dist/
 *.log
 selectel.txt
 DEPLOY.MD
+.env
+.env.*
+!.env.example
