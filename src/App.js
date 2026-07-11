@@ -1,10 +1,23 @@
-import { lazy, Suspense, useEffect, useState } from 'react';
+import { lazy, startTransition, Suspense, useEffect, useState } from 'react';
 import HeroSection from './components/HeroSection';
 
-const BaseOffers = lazy(() => import('./components/BaseOffers'));
-const CustomModules = lazy(() => import('./components/CustomModules'));
-const Expertise = lazy(() => import('./components/Expertise'));
-const ContactForm = lazy(() => import('./components/ContactForm'));
+const loadBaseOffers = () => import('./components/BaseOffers');
+const loadCustomModules = () => import('./components/CustomModules');
+const loadExpertise = () => import('./components/Expertise');
+const loadContactForm = () => import('./components/ContactForm');
+
+const BaseOffers = lazy(loadBaseOffers);
+const CustomModules = lazy(loadCustomModules);
+const Expertise = lazy(loadExpertise);
+const ContactForm = lazy(loadContactForm);
+
+const preloadDeferredSections = () =>
+  Promise.all([
+    loadBaseOffers(),
+    loadCustomModules(),
+    loadExpertise(),
+    loadContactForm(),
+  ]);
 
 function DeferredSectionsFallback() {
   return (
@@ -23,23 +36,66 @@ function App() {
   const [shouldLoadSections, setShouldLoadSections] = useState(false);
 
   useEffect(() => {
-    const loadSections = () => setShouldLoadSections(true);
+    let cancelled = false;
+    let hasStartedLoading = false;
     let idleId;
+    let settleId;
+    let lastScrollAt = 0;
 
-    const delayId = window.setTimeout(() => {
+    const commitSections = () => {
+      if (cancelled || hasStartedLoading) {
+        return;
+      }
+
+      const timeSinceLastScroll = performance.now() - lastScrollAt;
+
+      if (timeSinceLastScroll < 220) {
+        settleId = window.setTimeout(commitSections, 240 - timeSinceLastScroll);
+        return;
+      }
+
+      hasStartedLoading = true;
+
+      preloadDeferredSections().then(() => {
+        if (cancelled) {
+          return;
+        }
+
+        startTransition(() => {
+          setShouldLoadSections(true);
+        });
+      });
+    };
+
+    const scheduleCommit = () => {
+      if (cancelled || hasStartedLoading) {
+        return;
+      }
+
       if ('requestIdleCallback' in window) {
-        idleId = window.requestIdleCallback(loadSections, {
-          timeout: 1600,
+        idleId = window.requestIdleCallback(commitSections, {
+          timeout: 1800,
         });
 
         return;
       }
 
-      loadSections();
-    }, 1200);
+      settleId = window.setTimeout(commitSections, 0);
+    };
+
+    const handleScroll = () => {
+      lastScrollAt = performance.now();
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+
+    const delayId = window.setTimeout(scheduleCommit, 900);
 
     return () => {
+      cancelled = true;
       window.clearTimeout(delayId);
+      window.clearTimeout(settleId);
+      window.removeEventListener('scroll', handleScroll);
 
       if (idleId) {
         window.cancelIdleCallback?.(idleId);

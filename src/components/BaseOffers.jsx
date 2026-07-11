@@ -16,19 +16,6 @@ const offers = [
 
 const sectionTitle = 'Фундамент (Точка входа) — 10 000 ₽';
 
-const sectionVariants = {
-  hidden: {
-    opacity: 0,
-  },
-  visible: {
-    opacity: 1,
-    transition: {
-      duration: 0.9,
-      ease: [0.16, 1, 0.3, 1],
-    },
-  },
-};
-
 function TiltOfferCard({ offer, scrollToContact }) {
   const x = useMotionValue(0);
   const y = useMotionValue(0);
@@ -64,7 +51,7 @@ function TiltOfferCard({ offer, scrollToContact }) {
 
   return (
     <motion.article
-      className="group relative cursor-pointer rounded-lg border border-white/5 bg-[#050505]/80 p-8 backdrop-blur-md transition-all duration-500 ease-cinematic hover:-translate-y-1 hover:border-white/20 lg:p-10"
+      className="group relative cursor-pointer rounded-lg border border-white/5 bg-[#050505]/90 p-8 shadow-[inset_0_1px_0_rgba(255,255,255,0.04)] transition-all duration-500 ease-cinematic hover:-translate-y-1 hover:border-white/20 lg:p-10"
       key={offer.title}
       onClick={scrollToContact}
       onKeyDown={(event) => {
@@ -132,12 +119,8 @@ function BaseOffers() {
   };
 
   return (
-    <motion.section
+    <section
       className="px-6 py-24 sm:px-8 lg:px-12 lg:py-32"
-      initial="hidden"
-      variants={sectionVariants}
-      viewport={{ once: true, amount: 0.24 }}
-      whileInView="visible"
     >
       <div className="mx-auto w-full max-w-7xl">
         <div className="max-w-3xl">
@@ -163,7 +146,7 @@ function BaseOffers() {
           ))}
         </div>
       </div>
-    </motion.section>
+    </section>
   );
 }
 

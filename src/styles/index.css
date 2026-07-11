@@ -3,7 +3,8 @@
 @tailwind utilities;
 
 html {
-  scroll-behavior: smooth;
+  overflow-anchor: none;
+  scroll-behavior: auto;
 }
 
 body {
@@ -11,6 +12,7 @@ body {
   min-height: 100svh;
   margin: 0;
   overflow-x: hidden;
+  overflow-anchor: none;
   background: #0a0a0a;
   color: #ffffff;
   font-family:
@@ -64,6 +66,7 @@ textarea {
 }
 
 .deferred-sections-fallback {
+  overflow-anchor: none;
   pointer-events: none;
 }
 

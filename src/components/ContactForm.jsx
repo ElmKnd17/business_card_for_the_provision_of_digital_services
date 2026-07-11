@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { motion } from 'framer-motion';
 import { Mail, Phone, Send } from 'lucide-react';
 
 const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -159,12 +158,8 @@ function ContactForm() {
   };
 
   return (
-    <motion.section
+    <section
       className="flex min-h-[100svh] flex-col justify-between px-6 pt-24 sm:px-8 lg:min-h-screen lg:px-12 lg:pt-32"
-      initial={{ opacity: 0, y: 48 }}
-      transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
-      viewport={{ once: true, amount: 0.15 }}
-      whileInView={{ opacity: 1, y: 0 }}
     >
       <div className="mx-auto flex w-full max-w-7xl flex-1 items-center py-16">
         <div
@@ -330,7 +325,7 @@ function ContactForm() {
           </div>
         </div>
       </footer>
-    </motion.section>
+    </section>
   );
 }
 

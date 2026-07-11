@@ -26,19 +26,6 @@ const modules = [
 
 const sectionTitle = 'Модули кастомной логики';
 
-const sectionVariants = {
-  hidden: {
-    opacity: 0,
-  },
-  visible: {
-    opacity: 1,
-    transition: {
-      duration: 0.9,
-      ease: [0.16, 1, 0.3, 1],
-    },
-  },
-};
-
 function TiltModuleCard({ module, scrollToContact }) {
   const x = useMotionValue(0);
   const y = useMotionValue(0);
@@ -74,7 +61,7 @@ function TiltModuleCard({ module, scrollToContact }) {
 
   return (
     <motion.article
-      className="group relative cursor-pointer rounded-lg border border-white/5 bg-[#050505]/80 p-8 backdrop-blur-md transition-all duration-500 ease-cinematic hover:-translate-y-1 hover:border-white/20 lg:p-10"
+      className="group relative cursor-pointer rounded-lg border border-white/5 bg-[#050505]/90 p-8 shadow-[inset_0_1px_0_rgba(255,255,255,0.04)] transition-all duration-500 ease-cinematic hover:-translate-y-1 hover:border-white/20 lg:p-10"
       key={module.title}
       onClick={scrollToContact}
       onKeyDown={(event) => {
@@ -142,12 +129,8 @@ function CustomModules() {
   };
 
   return (
-    <motion.section
+    <section
       className="px-6 py-24 sm:px-8 lg:px-12 lg:py-32"
-      initial="hidden"
-      variants={sectionVariants}
-      viewport={{ once: true, amount: 0.22 }}
-      whileInView="visible"
     >
       <div className="mx-auto w-full max-w-7xl">
         <div className="max-w-3xl">
@@ -173,7 +156,7 @@ function CustomModules() {
           ))}
         </div>
       </div>
-    </motion.section>
+    </section>
   );
 }
 
