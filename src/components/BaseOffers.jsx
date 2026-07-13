@@ -93,7 +93,7 @@ function TiltOfferCard({ offer, scrollToContact }) {
         }}
       >
         <div
-          className="flex h-12 w-12 items-center justify-center rounded-lg border border-white/10 bg-white/[0.03] text-primary transition-colors duration-500 ease-cinematic group-hover:border-white/20 group-hover:text-accent"
+          className="ml-2 flex h-12 w-12 items-center justify-center rounded-lg border border-white/10 bg-white/[0.03] text-primary transition-colors duration-500 ease-cinematic group-hover:border-white/20 group-hover:text-accent"
           style={{ transform: 'translateZ(18px)' }}
         >
           <Icon aria-hidden="true" className="h-6 w-6" />
