@@ -1,0 +1,5 @@
+elm-web.ru, www.elm-web.ru {
+  encode zstd gzip
+
+  reverse_proxy web:80
+}
